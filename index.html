@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sec's Domain</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+      font-family: 'Arial Black', sans-serif;
+      font-size: 16px;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    #intro {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 22px;
+      color: white;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      50.01%, 100% { opacity: 0; }
+    }
+
+    #terminal {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: left;
+      font-family: 'Courier New', monospace;
+      white-space: pre-wrap;
+      color: white;
+      background-color: black;
+      padding: 30px;
+      border: 1px solid white;
+      width: 500px;
+      display: none;
+    }
+
+    #profile {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 2;
+    }
+
+    #profile-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      display: none;
+    }
+
+    .profile-box {
+      background: rgba(10, 10, 10, 0.6);
+      border-radius: 20px;
+      padding: 30px;
+      width: 380px;
+      box-shadow: 0 0 20px white, 0 0 40px white;
+      backdrop-filter: blur(12px);
+      border: 1px solid white;
+      z-index: 3;
+    }
+
+    .pfp {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 2px solid white;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: 26px;
+      margin: 10px 0;
+      text-shadow: 0 0 10px white;
+    }
+
+    .socials {
+      font-size: 16px;
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .socials a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .socials a:hover {
+      text-decoration: underline;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid #aaa;
+      margin: 20px auto;
+      width: 70%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Intro screen -->
+  <div id="intro">
+    Welcome To Sec's Domain. Press Any Key To Continue<span class="cursor">█</span>
+  </div>
+
+  <!-- Terminal screen -->
+  <div id="terminal"></div>
+
+  <!-- Background video -->
+  <video id="profile-video" autoplay muted loop>
+    <source src="https://files.catbox.moe/w1ly3e.mp4" type="video/mp4">
+  </video>
+
+  <!-- Profile section -->
+  <div class="profile-container" id="profile">
+    <div class="profile-box">
+      <img class="pfp" src="https://files.catbox.moe/xge2b7.jpg" alt="pfp" />
+      <h1>sec</h1>
+      <p>Yungest To Do It</p>
+      <hr />
+      <div class="socials">
+        <div><strong>📡 Telegram</strong> – <a href="https://t.me/prettyboy58" target="_blank">prettyboy58</a></div>
+        <div><strong>📄 Doxbin</strong> – <a href="https://doxbin.net/user/wpa" target="_blank">wpa</a></div>
+        <div><strong>📧 Email</strong> – sec@govshield.cc</div>
+      </div>
+      <audio id="profile-audio" loop>
+        <source src="https://files.catbox.moe/xaxmfx.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </div>
+
+  <script>
+    const lines = [
+      "root@adduser.sh",
+      "Please state the user you would like to add > sec",
+      "Please set the password for 'sec' > ********",
+      "Shall we create a home directory for 'sec'? > Yes",
+      "",
+      "Directory Created, time for your socials!",
+      "",
+      "Logging in...",
+      "Login successful.",
+    ];
+
+    let i = 0, j = 0;
+    const speed = 25;
+    const terminal = document.getElementById("terminal");
+    const profile = document.getElementById("profile");
+    const profileAudio = document.getElementById("profile-audio");
+    const video = document.getElementById("profile-video");
+
+    function startOnInput() {
+      document.getElementById("intro").remove();
+      terminal.style.display = "block";
+      typeLine();
+      document.removeEventListener("keydown", startOnInput);
+      document.removeEventListener("click", startOnInput);
+    }
+
+    document.addEventListener("keydown", startOnInput);
+    document.addEventListener("click", startOnInput);
+
+    function typeLine() {
+      if (i < lines.length) {
+        if (j < lines[i].length) {
+          terminal.innerHTML += lines[i].charAt(j);
+          j++;
+          setTimeout(typeLine, speed);
+        } else {
+          terminal.innerHTML += '\n';
+          i++;
+          j = 0;
+          setTimeout(typeLine, 250);
+        }
+      } else {
+        setTimeout(() => {
+          terminal.style.display = "none";
+          profile.style.display = "flex";
+          video.style.display = "block";  // Ensure video shows when profile appears
+          
+          // Start the audio once the profile is displayed
+          profileAudio.play();
+        }, 1000); // Audio starts after the profile is fully displayed
+      }
+    }
+  </script>
+</body>
+</html>
